@@ -1,5 +1,5 @@
 import React from 'react';
-import { NativeRouter, Route, Link } from "react-router-native";
+import { NativeRouter, Route } from "react-router-native";
 import { StyleSheet, Text, View, AppRegistry } from "react-native";
 import Explore from './screens/Explore';
 import Preview from './screens/Preview';
@@ -87,8 +87,9 @@ class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: '30%'
+    flex: 1,
   }
 })
+
 
 export default App;
