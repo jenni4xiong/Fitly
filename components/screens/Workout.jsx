@@ -1,8 +1,7 @@
 import React from 'react';
-import { NativeRouter, Route, Link } from "react-router-native";
-import { StyleSheet, Text, View, AppRegistry } from "react-native";
 import WorkoutFinished from './WorkoutFinished';
 import Exercise from './Exercise';
+import Rest from './Rest';
 
 
 class Workout extends React.Component {
@@ -11,42 +10,57 @@ class Workout extends React.Component {
     this.state = {
       exerciseNumber: 1,
       setNumber: 1,
-      isFinished: false
+      isFinished: false,
+      rest: false,
     }
+    this.next = this.next.bind(this);
   }
 
-  currentExercise() {
+  next() {
     const { workout } = this.props;
-    const { exerciseNumber, setNumber, isFinished } = this.state;
+    const { exerciseNumber, setNumber, rest } = this.state;
     const totalExercises = workout.exercises.length - 1;
-    const totalSets = workouts.exercises[exerciseNumber - 1].sets;
-    if (setNumber >= totalSets) {
-      if (exerciseNumber >= totalExercises) {
-        this.setState({
-          isFinished: true
-        });
+    const totalSets = workout.exercises[exerciseNumber].sets;
+    if (rest) {
+      if (setNumber >= totalSets) {
+        if (exerciseNumber >= totalExercises) {
+          this.setState({
+            isFinished: true
+          });
+        } else {
+          this.setState({
+            exerciseNumber: exerciseNumber + 1,
+            setNumber: 1
+          })
+        }
       } else {
         this.setState({
-          exerciseNumber: exerciseNumber + 1,
-          setNumber: 1
+          setNumber: setNumber + 1
         })
       }
-    } else {
-      this.setState({
-        setNumber: setNumber + 1
-      })
     }
+    this.setState({
+      rest: !rest,
+    })
+
   }
+
   render() {
-    const { isFinished } = this.state;
-    console.log(this.props.workout);
+    const { isFinished, setNumber, exerciseNumber, rest } = this.state;
+    const { workout: { exercises } } = this.props
+    const currentExercise = exercises[exerciseNumber]
     if (isFinished) {
       return (
         <WorkoutFinished />
       )
     }
+    if (!rest) {
+      return (
+        <Exercise next={this.next} exercise={currentExercise.exercise} reps={currentExercise.reps} currentSet={setNumber} totalSets={currentExercise.sets} />
+      )
+    }
     return (
-      <Exercise />
+      <Rest next={this.next} currentSet={setNumber} totalSets={currentExercise.sets} />
     )
   }
 }

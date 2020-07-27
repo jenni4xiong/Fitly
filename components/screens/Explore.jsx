@@ -1,13 +1,18 @@
 import React from 'react';
-import { NativeRouter, Route, Link } from "react-router-native";
-import { StyleSheet, Text, View, AppRegistry } from "react-native";
+import { Link } from "react-router-native";
+import { StyleSheet, Text, View } from "react-native";
 
 class Explore extends React.Component {
   render() {
     const { workouts } = this.props;
     return (
       <View style={styles.container}>
-        {workouts.map((workout) => (<Link id={workout._id} to={`/workouts/${workout._id}/preview`}><Text>{workout.bodyPartFocus}</Text></Link>))}
+        {(workouts.filter((workout) => workout.workoutType === 'Resistance'))
+          .map((resistanceWorkout) => (<Link id={resistanceWorkout._id} to={`/workouts/${resistanceWorkout._id}/preview`}><Text>{resistanceWorkout.workoutType} {resistanceWorkout.bodyPartFocus}</Text></Link>))
+        }
+        {(workouts.filter((workout) => workout.workoutType === 'HIIT'))
+          .map((HIITWorkout) => (<Link id={HIITWorkout._id} to={`/workouts/${HIITWorkout._id}/preview`}><Text>{HIITWorkout.workoutType} {HIITWorkout.bodyPartFocus}</Text></Link>))
+        }
       </View>
     )
   }
@@ -16,7 +21,7 @@ class Explore extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'linear-gradient(90deg, rgba(249, 0, 153, 0.6264880952380952) 36%, rgba(255, 147, 0, 0.4864320728291317) 100%)',
+    backgroundColor: '#f90099',
     alignItems: 'center',
     justifyContent: 'center'
   }

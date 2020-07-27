@@ -1,6 +1,6 @@
 import React from 'react';
 import { NativeRouter, Route } from "react-router-native";
-import { StyleSheet, Text, View, AppRegistry } from "react-native";
+import { StyleSheet, View, SafeAreaView } from "react-native";
 import Explore from './screens/Explore';
 import Preview from './screens/Preview';
 import Workout from './screens/Workout';
@@ -75,10 +75,12 @@ class App extends React.Component {
     const { workouts } = this.state;
     return (
       <NativeRouter>
-        <View style={styles.container}>
-          <Route exact path='/' component={() => <Explore workouts={workouts} />} />
-          <Route path='/workouts/:workoutId/preview' component={(props) => <Preview workout={this.currentWorkout(props.match.params.workoutId)} />} />
-          <Route exact path='/workouts/:workoutId' component={(props) => <Workout workout={this.currentWorkout(props.match.params.workoutId)} />} />
+        <View style={styles.outerContainer}>
+          <SafeAreaView style={styles.container}>
+            <Route exact path='/' component={() => <Explore workouts={workouts} />} />
+            <Route path='/workouts/:workoutId/preview' component={(props) => <Preview workout={this.currentWorkout(props.match.params.workoutId)} />} />
+            <Route exact path='/workouts/:workoutId' component={(props) => <Workout workout={this.currentWorkout(props.match.params.workoutId)} />} />
+          </SafeAreaView>
         </View>
       </NativeRouter>
     );
@@ -88,8 +90,13 @@ class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  outerContainer: {
+    flex: 1,
+    backgroundColor: '#f90099'
   }
 })
+
 
 
 export default App;

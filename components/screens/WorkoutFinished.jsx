@@ -1,12 +1,14 @@
 import React from 'react';
+import { Link } from "react-router-native";
 import { StyleSheet, Text, View } from "react-native";
 
 const WorkoutFinished = (props) => {
   return (
     <View>
       <Text>
-        Hello WorkoutFinished
+        Congrats! You finished!
       </Text>
+      <Link to={`/`}><Text>Goodjob Jen!</Text></Link>
     </View>
   )
 }
