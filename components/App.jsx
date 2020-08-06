@@ -1,6 +1,6 @@
 import React from 'react';
 import { NativeRouter, Route } from "react-router-native";
-import { StyleSheet, View, SafeAreaView } from "react-native";
+import { StyleSheet, View, SafeAreaView, ImageBackground, Image } from "react-native";
 import Explore from './screens/Explore';
 import Preview from './screens/Preview';
 import Workout from './screens/Workout';
@@ -121,11 +121,20 @@ class App extends React.Component {
     return (
       <NativeRouter>
         <View style={styles.outerContainer}>
-          <SafeAreaView style={styles.container}>
-            <Route exact path='/' component={() => <Explore workouts={workouts} />} />
-            <Route path='/workouts/:workoutId/preview' component={(props) => <Preview workout={this.currentWorkout(props.match.params.workoutId)} />} />
-            <Route exact path='/workouts/:workoutId' component={(props) => <Workout workout={this.currentWorkout(props.match.params.workoutId)} />} />
-          </SafeAreaView>
+          <ImageBackground
+            source={{ uri: 'https://fitly2.s3-us-west-1.amazonaws.com/background' }}
+            style={styles.image}
+          >
+            <Image
+              source={{ uri: 'https://fitly2.s3-us-west-1.amazonaws.com/logo4' }}
+              style={styles.logo}
+            />
+            <SafeAreaView style={styles.container}>
+              <Route exact path='/' component={() => <Explore workouts={workouts} />} />
+              <Route path='/workouts/:workoutId/preview' component={(props) => <Preview workout={this.currentWorkout(props.match.params.workoutId)} />} />
+              <Route exact path='/workouts/:workoutId' component={(props) => <Workout workout={this.currentWorkout(props.match.params.workoutId)} />} />
+            </SafeAreaView>
+          </ImageBackground>
         </View>
       </NativeRouter>
     );
@@ -136,9 +145,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  image: {
+    width: '100%',
+    height: '100%',
+  },
   outerContainer: {
     flex: 1,
-    backgroundColor: '#f90099'
+  },
+  logo: {
+    height: '11%'
   }
 })
 

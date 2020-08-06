@@ -17,18 +17,26 @@ class Resistance extends React.Component {
     this.next = this.next.bind(this);
   }
   next() {
-    const { exerciseIndex, rest } = this.state;
+    const { exerciseIndex, rest, setNumber } = this.state;
     const { workout: { exercises } } = this.props;
     const totalExercises = exercises.length;
-    if (exerciseIndex >= totalExercises - 1) {
-      this.setState({
-        isFinished: true,
-      })
-    }
-    else {
-      this.setState({
-        exerciseIndex: exerciseIndex + 1,
-      })
+
+    if (rest) {
+      if (setNumber < exercises[exerciseIndex].sets - 1) {
+        this.setState({
+          setNumber: setNumber + 1,
+        })
+      } else if (exerciseIndex < totalExercises - 1) {
+        this.setState({
+          exerciseIndex: exerciseIndex + 1,
+          setNumber: 0,
+        })
+      }
+      else {
+        this.setState({
+          isFinished: true,
+        })
+      }
     }
     this.setState({
       rest: !rest,
@@ -49,11 +57,24 @@ class Resistance extends React.Component {
     if (!rest) {
       return (
         <View>
-          <Link to={`/`}><Text>Quit</Text></Link>
-          <Text>Sets {setNumber + 1}/4</Text>
-          <Text>{currentExercise.exercise}</Text>
-          <Text>{currentExercise.reps} Reps</Text>
-          <Button title='Next' onPress={() => this.next()}></Button>
+          <Link to={`/`}>
+            <Text>
+              <Image
+                source={require('../../assets/back-button.png')}
+                style={styles.backArrow}
+              />
+              <Text>  </Text>
+              <Text style={styles.quit}>Quit</Text>
+            </Text>
+          </Link>
+          <View style={styles.info}>
+            <Text style={styles.text}>Set {setNumber + 1}/4</Text>
+            <Text style={styles.title}>{currentExercise.exercise}</Text>
+            <Text style={styles.reps}>{currentExercise.reps}</Text>
+          </View>
+          <View style={styles.button}>
+            <Button title='Next' onPress={() => this.next()}></Button>
+          </View>
         </View>
       )
     }
@@ -62,6 +83,37 @@ class Resistance extends React.Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  quit: {
+    fontSize: 30,
+    marginLeft: 10,
+  },
+  info: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '20%'
+  },
+  text: {
+    fontSize: 25,
+    marginBottom: '2%'
+  },
+  title: {
+    fontSize: 40,
+    marginTop: '15%',
+    marginBottom: '5%',
+    fontWeight: 'bold'
+  },
+  reps: {
+    fontSize: 100,
+    marginBottom: '18%',
+    fontWeight: 'bold'
+  },
+  button: {
+    backgroundColor: 'black',
+    padding: 10,
+  }
+})
 
 export default Resistance
 

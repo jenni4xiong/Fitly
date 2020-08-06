@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, Button } from "react-native";
 import { Link } from "react-router-native";
 import WorkoutFinished from './WorkoutFinished';
-import Exercise from './Exercise';
 import Rest from './Rest';
 
 class HIIT extends React.Component {
@@ -83,14 +82,27 @@ class HIIT extends React.Component {
     console.log('circuitIndex', circuitIndex, 'exerciseIndex', exerciseIndex, 'rest:', rest);
     if (!rest) {
       return (
-        <View>
-          <Link to={`/`}><Text>Quit</Text></Link>
-          <Text>Exercise {exerciseIndex + 1}/4</Text>
-          <Text>Circuit {circuitIndex + 1}/2</Text>
-          <Text>Round {round + 1}/2</Text>
-          <Text>{currentExercise.exercise}</Text>
-          <Text>{currentExercise.reps} Reps</Text>
-          <Button title='Next' onPress={() => this.next()}></Button>
+        <View style={styles.container}>
+          <Link to={`/`}>
+            <Text>
+              <Image
+                source={require('../../assets/back-button.png')}
+                style={styles.backArrow}
+              />
+              <Text>  </Text>
+              <Text style={styles.quit}>Quit</Text>
+            </Text>
+          </Link>
+          <View style={styles.info}>
+            <Text style={styles.text}>Circuit {circuitIndex + 1}/2</Text>
+            <Text style={styles.text}>Round {round + 1}/2</Text>
+            <Text style={styles.text}>Exercise {exerciseIndex + 1}/4</Text>
+            <Text style={styles.title}>{currentExercise.exercise}</Text>
+            <Text style={styles.reps}>{currentExercise.reps}</Text>
+          </View>
+          <View style={styles.button}>
+            <Button title='Next' onPress={() => this.next()}></Button>
+          </View>
         </View>
       )
     }
@@ -100,7 +112,42 @@ class HIIT extends React.Component {
   }
 }
 
+const styles = StyleSheet.create({
+  quit: {
+    fontSize: 30,
+    marginLeft: 10,
+  },
+  info: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '20%'
+  },
+  text: {
+    fontSize: 18,
+    marginBottom: '2%'
+  },
+  title: {
+    fontSize: 40,
+    marginTop: '15%',
+    marginBottom: '5%',
+    fontWeight: 'bold'
+  },
+  reps: {
+    fontSize: 100,
+    marginBottom: '5%',
+    fontWeight: 'bold'
+  },
+  button: {
+    backgroundColor: 'black',
+    padding: 10
+  },
+  container: {
+    justifyContent: 'space-between'
+  }
+})
+
 export default HIIT;
+
 
 // {
 //   "exercises": {
