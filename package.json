@@ -10,10 +10,10 @@
   },
   "dependencies": {
     "@react-native-community/masked-view": "0.1.10",
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.20.1",
     "expo": "~38.0.8",
     "expo-status-bar": "^1.0.2",
-    "express": "^4.17.1",
+    "express": "^4.18.2",
     "mongo": "^0.1.0",
     "mongoose": "^5.9.25",
     "nodemon": "^2.0.4",
